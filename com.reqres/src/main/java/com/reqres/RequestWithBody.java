@@ -7,7 +7,9 @@ public abstract class RequestWithBody extends Request {
 		super(host);
 		this._body = body;
 		
-		this._req.body(body);
+		this._req = this._req
+						.header("Content-type", "application/json")
+						.body(body);
 	}
 
 }
