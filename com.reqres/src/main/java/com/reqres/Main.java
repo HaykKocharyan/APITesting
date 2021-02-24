@@ -1,21 +1,22 @@
 package com.reqres;
 
-import io.restassured.response.Response;
-
 public class Main {
 
 	public static void main(String[] args) {
-		Request[] requestes = { 
-				new GETRequest("https://reqres.in/api/users?page=1"),
-				new POSTRequest("https://reqres.in/api/users", "{\"name\": \"morpheus\", \"job\": \"leader\"}"),
-				new PUTRequest("https://reqres.in/api/users/2", "{\"name\": \"morpheus\", \"job\": \"zion resident\"}"),
-				new DELETERequest("https://reqres.in/api/users/2")
-		};
+		new GETRequest("https://reqres.in/api/users?page=1").Send()
+			.then().statusCode(200)
+			.log().body();
 		
-		for (Request request : requestes) {
-			Response response = request.Send();
-			System.out.println(response.asPrettyString());
-		}
+		new POSTRequest("https://reqres.in/api/users", "{\"name\": \"morpheus\", \"job\": \"leader\"}").Send()
+			.then().statusCode(201)
+			.log().body();
+		
+		new PUTRequest("https://reqres.in/api/users/2", "{\"name\": \"morpheus\", \"job\": \"zion resident\"}").Send()
+			.then().statusCode(200)
+			.log().body();
+		
+		new DELETERequest("https://reqres.in/api/users/2").Send()
+			.then().statusCode(204)
+			.log().body();
 	}
-
 }
